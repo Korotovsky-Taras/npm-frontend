@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="">
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<meta name="format-detection" content="telephone=no">
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-title" content="">
+	<meta name="apple-mobile-web-app-status-bar-style" content="default">
+	<meta name="application-name" content=""><!-- Site title-->
+	<meta property="og:site_name" content=""> <!-- Site title-->
+	<meta property="og:locale" content="ru">
+	<meta property="og:type" content="website">
+	<meta property="og:title" content=""><!-- Site title-->
+	<meta property="og:description" content=""> <!-- Site description-->
+	<meta property="og:url" content="">  <!-- Site url-->
+	<meta property="og:site_name" content="">
+	<meta property="article:publisher" content="https://www.facebook.com/ "> <!--Facebook link-->
+	<meta property="og:image" content=""> <!-- Site url preview 310x310 png-->
+
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
+
+ 	{% include 'favicon.html' %}
+
+	<link rel="stylesheet" href="css/style.css">
+ 	{% block styles %}{% endblock %}
+</head>
+
+{% if bodyClass %}<body class="{{ bodyClass }}">{% else %}<body>{% endif %}
+{% block banner %}{% endblock %}
+
+<div class="app-wrapper">
+	{% block header %}{% endblock %}
+
+	<section id="container">
+		{% block content %}{% endblock %}
+	</section>
+
+	{% block footer %}{% endblock %}
+</div>
+
+	{% block modals %}{% endblock %}
+</body>
+
+<script type="text/javascript" src="js/script.js"></script>
+{% block script %}{% endblock %}
+</html>

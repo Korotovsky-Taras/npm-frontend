@@ -1,0 +1,53 @@
+{
+  "name": "gulp-starter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "gulpfile.js",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "Korotovsky Taras",
+  "license": "MIT",
+  "scripts": {
+    "dev": "gulp",
+    "build": "gulp build"
+  },
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "",
+  "devDependencies": {
+    "babel-preset-es2015": "^6.24.1",
+    "browser-sync": "^2.18.12",
+    "eslint": "^4.1.1",
+    "eslint-config-airbnb-base": "^11.2.0",
+    "eslint-plugin-import": "^2.6.0",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^4.0.0",
+    "gulp-babel": "^6.1.2",
+    "gulp-better-rollup": "^1.1.1",
+    "gulp-csscomb": "^3.0.8",
+    "gulp-csso": "^3.0.0",
+    "gulp-eslint": "^4.0.0",
+    "gulp-group-css-media-queries": "^1.2.0",
+    "gulp-iconfont": "^9.0.1",
+    "gulp-iconfont-css": "^2.1.0",
+    "gulp-imagemin": "^3.3.0",
+    "gulp-plumber": "^1.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-rework": "^1.2.0",
+    "gulp-sass": "^3.1.0",
+    "gulp-shell": "^0.6.3",
+    "gulp-size": "^2.1.0",
+    "gulp-swig": "^0.8.0",
+    "gulp-uglify": "^3.0.0",
+    "klaw": "^2.0.0",
+    "node-sass": "^4.7.2",
+    "rework-npm": "^1.0.0"
+  },
+  "dependencies": {
+    "font-awesome": "^4.7.0",
+    "normalize-css": "^2.3.1"
+  }
+}

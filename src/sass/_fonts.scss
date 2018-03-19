@@ -1,0 +1,14 @@
+$font: 'Name';
+$types: ('Bold', 'Medium', 'Regular');
+
+@each $type in $types {
+  $fontName: '#{$font}-#{$type}';
+  @include include_font($fontName, '../fonts/#{$font}/', (woff2, woff, ttf, eot));
+
+  $selector1: to-lower_case($fontName);
+  $selector2: to-lower_case($type);
+
+  .#{$selector1}-#{$selector2} {
+    font-family: $fontName;
+  }
+}
