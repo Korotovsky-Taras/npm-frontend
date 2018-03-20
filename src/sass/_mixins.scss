@@ -1,25 +1,3 @@
-@mixin include_font($name,$path,$exts: eot) {
-  $src: null;
-  $extmods: (
-          eot: "?#iefix",
-          svg: "#" + str-replace($name, " ", "_")
-  );
-  $formats: (
-          eot: "embedded-opentype",
-          otf: "opentype",
-          ttf: "truetype"
-  );
-  @each $ext in $exts {
-    $extmod: if(map-has-key($extmods, $ext), $ext + map-get($extmods, $ext), $ext);
-    $format: if(map-has-key($formats, $ext), map-get($formats, $ext), $ext);
-    $src: append($src, url(quote($path + $name + "." + $extmod)) format(quote($format)), comma);
-  }
-  @font-face {
-    font-family: quote($name);
-    src: $src;
-  }
-}
-
 @mixin ratio($width, $height) {
   position: relative;
   &:before {
@@ -27,13 +5,6 @@
     content: "";
     width: 100%;
     padding-top: ($height / $width) * 100%;
-  }
-  > .content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
   }
 }
 
@@ -71,19 +42,6 @@
     }
 }
 
-@mixin transform($values, $defs: none) {
-    @if $defs == none {
-        -webkit-transform: $values;
-        -ms-transform: $values;
-        -moz-transform: $values;
-        transform: $values;
-    } @else {
-        -webkit-transform-#{$defs}: $values;
-        -moz-transform-#{$defs}: $values;
-        transform-#{$defs}: $values;
-    }
-}
-
 @function mergeListByIndex($arglist,$key) {
     $val: ();
     $map: keywords($arglist);
@@ -102,32 +60,22 @@
 
 @mixin transition($transition...) {
     will-change: mergeListByIndex($transition, 1);
-    -webkit-transition: $transition;
-    -moz-transition: $transition;
     transition: $transition;
 }
 
 @mixin box-shadow($shadow...) {
-    -webkit-box-shadow: $shadow;
-    -moz-box-shadow: $shadow;
     box-shadow: $shadow;
 }
 
 @mixin box-sizing($value: border-box) {
-    -moz-box-sizing: $value;
     box-sizing: $value;
 }
 
 @mixin user-select-none() {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
     user-select: none;
 }
 
 @mixin user-select-text() {
-    -webkit-user-select: text;
-    -moz-user-select: text;
     user-select: text;
 }
 
@@ -162,393 +110,12 @@
     text-overflow: ellipsis;
 }
 
-@mixin make-arrow($type: top-left, $innerColor: #fff, $outlineColor: inherit, $sideInsideArrow: 16px, $brdWidthArrow: 8px) {
-    &[class*="-arrow"] {
-        &:before,
-        &:after {
-            content: "";
-            position: absolute;
-            border: $brdWidthArrow solid transparent;
-            height: 0;
-            width: 0;
-            pointer-events: none;
-        }
-
-        &[class*="#{$type}"] {
-
-            @if $type == top-left {
-                &:before, &:after {
-                    left: $sideInsideArrow;
-                }
-                &:before {
-                    top: -$brdWidthArrow*2 - 1;
-                    border-bottom-color: $outlineColor;
-                }
-                &:after {
-                    top: -$brdWidthArrow*2;
-                    border-bottom-color: $innerColor;
-                }
-                @content;
-            }
-
-            @if $type == top-center {
-                &:before {
-                    top: -$brdWidthArrow*2 - 1;
-                    border-bottom-color: $outlineColor;
-                }
-                &:after {
-                    top: -$brdWidthArrow*2;
-                    border-bottom-color: $innerColor;
-                }
-                &:after, &:before {
-                    margin-left: -$brdWidthArrow;
-                    left: 50%;
-                }
-                @content;
-            }
-
-            @if $type == top-right {
-                &:before {
-                    top: -$brdWidthArrow*2 - 1;
-                    border-bottom-color: $outlineColor;
-                }
-                &:after {
-                    top: -$brdWidthArrow*2;
-                    border-bottom-color: $innerColor;
-                }
-                &:before, &:after {
-                    right: $sideInsideArrow;
-                }
-                @content;
-            }
-            @if $type == left-top {
-                &:after {
-                    margin-top: 1px;
-                    margin-left: 1px;
-                    border-right-color: $innerColor;
-                }
-                &:before {
-                    border-width: $brdWidthArrow + 1;
-                    border-right-color: $outlineColor;
-                    margin-left: -2px;
-                }
-                &:before, &:after {
-                    left: -$brdWidthArrow*2;
-                    top: $sideInsideArrow;
-                }
-                @content;
-            }
-            @if $type == left-center {
-                &:after {
-                    margin-left: 1px;
-                    margin-top: -$brdWidthArrow + 1;
-                    border-right-color: $innerColor;
-                }
-                &:before {
-                    margin-top: -$brdWidthArrow;
-                    border-width: $brdWidthArrow + 1;
-                    border-right-color: $outlineColor;
-                    margin-left: -2px;
-                }
-                &:before, &:after {
-                    left: -$brdWidthArrow*2;
-                    top: 50%;
-                }
-                @content;
-            }
-            @if $type == left-bottom {
-                &:after {
-                    margin-left: 1px;
-                    margin-bottom: -1px;
-                    border-right-color: $innerColor;
-                }
-                &:before {
-                    border-width: $brdWidthArrow + 1;
-                    margin-left: -2px;
-                    margin-bottom: -2px;
-                    border-right-color: $outlineColor;
-                }
-                &:before, &:after {
-                    left: -$brdWidthArrow*2;
-                    bottom: $sideInsideArrow;
-                }
-                @content;
-            }
-            @if $type == bottom-left {
-                &:after {
-                    border-top-color: $innerColor;
-                    margin-top: -1px;
-                }
-                &:before {
-                    border-top-color: $outlineColor;
-                }
-                &:before, &:after {
-                    top: 100%;
-                    left: $sideInsideArrow;
-                }
-                @content;
-            }
-            @if $type == bottom-center {
-                &:after {
-                    border-top-color: $innerColor;
-                    margin-top: -1px;
-                }
-                &:before {
-                    border-top-color: $outlineColor;
-                }
-                &:after, &:before {
-                    margin-left: -$brdWidthArrow;
-                    top: 100%;
-                    left: 50%;
-                }
-                @content;
-            }
-            @if $type == bottom-right {
-                &:after {
-                    border-top-color: $innerColor;
-                    margin-top: -1px;
-                }
-                &:before {
-                    border-top-color: $outlineColor;
-                }
-                &:before, &:after {
-                    top: 100%;
-                    right: $sideInsideArrow;
-                }
-                @content;
-            }
-            @if $type == right-bottom {
-                &:after {
-                    margin-right: 1px;
-                    margin-bottom: -1px;
-                    border-left-color: $innerColor;
-                }
-                &:before {
-                    border-width: $brdWidthArrow + 1;
-                    margin-right: -2px;
-                    margin-bottom: -2px;
-                    border-left-color: $outlineColor;
-                }
-                &:before, &:after {
-                    right: -$brdWidthArrow*2;
-                    bottom: $sideInsideArrow;
-                }
-                @content;
-            }
-            @if $type == right-center {
-                &:after {
-                    margin-right: 1px;
-                    margin-top: -$brdWidthArrow + 1;
-                    border-left-color: $innerColor;
-                }
-                &:before {
-                    margin-top: -$brdWidthArrow;
-                    border-width: $brdWidthArrow + 1;
-                    margin-right: -2px;
-                    border-left-color: $outlineColor;
-                }
-                &:before, &:after {
-                    right: -$brdWidthArrow*2;
-                    top: 50%;
-                }
-                @content;
-            }
-            @if $type == right-top {
-                &:after {
-                    margin-top: 1px;
-                    margin-right: 1px;
-                    border-left-color: $innerColor;
-                }
-                &:before {
-                    border-width: $brdWidthArrow + 1;
-                    margin-right: -2px;
-                    margin-bottom: -2px;
-                    border-left-color: $outlineColor;
-                }
-                &:before, &:after {
-                    right: -$brdWidthArrow*2;
-                    top: $sideInsideArrow;
-                }
-                @content;
-            }
-        }
-    }
-}
-
-@mixin make-arrows($innerColor: $color1, $outlineColor: inherit, $sideInsideArrow: 16px, $brdWidthArrow: 8px) {
-    &[class*="-arrow"] {
-        &[class*="top"], &[class*="bottom"], &[class*="right"], &[class*="left"] {
-            &:before,
-            &:after {
-                content: "";
-                position: absolute;
-                border: $brdWidthArrow solid transparent;
-                height: 0;
-                width: 0;
-                pointer-events: none;
-            }
-        }
-        &[class*="top-"] {
-            &[class*="-left"], &[class*="-center"], &[class*="-right"] {
-                &:before {
-                    top: -$brdWidthArrow*2;
-                    border-bottom-color: $outlineColor;
-                }
-                &:after {
-                    top: -$brdWidthArrow*2 + 1;
-                    border-bottom-color: $innerColor;
-                }
-            }
-            &[class*="-center-"] {
-                &:before, &:after {
-                    margin-left: -($sideInsideArrow) / 2;
-                    left: 50%;
-                }
-            }
-        }
-        &[class*="bottom-"] {
-            &[class*="-left"], &[class*="-center"], &[class*="-right"] {
-                &:before, &:after {
-                    top: 100%;
-                }
-                &:after {
-                    border-top-color: $innerColor;
-                    margin-top: -1px;
-                }
-                &:before {
-                    border-top-color: $outlineColor;
-                }
-            }
-            &[class*="-center-"] {
-                &:before, &:after {
-                    margin-left: -($sideInsideArrow) / 2;
-                    left: 50%;
-                }
-            }
-        }
-        &[class*="left-"] {
-            &[class*="-top"], &[class*="-center"], &[class*="-bottom"] {
-                &:before, &:after {
-                    left: -$brdWidthArrow*2;
-                }
-                &:after {
-                    margin-left: 1px;
-                    border-right-color: $innerColor;
-                }
-                &:before {
-                    border-width: $brdWidthArrow + 1;
-                    border-right-color: $outlineColor;
-                    margin-left: -2px;
-                }
-            }
-            &[class*="-center"] {
-                &:before {
-                    margin-top: -$brdWidthArrow - 1;
-                }
-                &:after {
-                    margin-top: -$brdWidthArrow;
-                }
-            }
-            &[class*="-bottom"] {
-                &:after {
-                    margin-bottom: 1px;
-                }
-            }
-            &[class*="-top"] {
-                &:after {
-                    margin-top: 1px;
-                }
-            }
-        }
-        &[class*="right-"] {
-            &[class*="-top"], &[class*="-center"], &[class*="-bottom"] {
-                &:before, &:after {
-                    right: -$brdWidthArrow*2;
-                }
-                &:after {
-                    margin-right: 1px;
-                    border-left-color: $innerColor;
-                }
-                &:before {
-                    border-width: $brdWidthArrow + 1;
-                    border-left-color: $outlineColor;
-                    margin-right: -2px;
-                }
-            }
-            &[class*="-center"] {
-                &:before {
-                    margin-top: -$brdWidthArrow
-                }
-                &:after {
-                    margin-top: -$brdWidthArrow + 1
-                }
-            }
-            &[class*="-bottom"] {
-                &:after {
-                    margin-bottom: 1px;
-                }
-            }
-            &[class*="-top"] {
-                &:after {
-                    margin-top: 1px;
-                }
-            }
-        }
-        &[class*="-left-"] {
-            &:before, &:after {
-                left: $sideInsideArrow;
-            }
-        }
-        &[class*="-right-"] {
-            &:before, &:after {
-                right: $sideInsideArrow;
-            }
-        }
-        &[class*="-center-"] {
-            &:before, &:after {
-                top: 50%;
-            }
-        }
-        &[class*="-bottom-"] {
-            &:before, &:after {
-                bottom: $sideInsideArrow;
-            }
-        }
-        &[class*="-top-"] {
-            &:before, &:after {
-                top: $sideInsideArrow;
-            }
-        }
-    }
-}
-
-@mixin caret-color($text_cl: "", $caret_cl: "") {
-    color: $text_cl;
-
-    .webkit & {
-        color: $caret_cl;
-        text-shadow: 0 0 0 $text_cl;
-        -webkit-text-fill-color: transparent;
-        min-width: 0;
-    }
-}
-
-
-@mixin display($value){
-  @if $value == inline-block {
+@mixin in_b($pos: top){
+    vertical-align: $pos;
     display: -moz-inline-stack;
     display: inline-block;
     *display: inline;
     zoom: 1;
-  } @else {
-    display: $value;
-  }
-}
-
-@mixin radius($value) {
-  -webkit-border-radius: $value;
-  -moz-border-radius: $value;
-  border-radius: $value;
 }
 
 @mixin col($col, $sum: $app-grid-max, $gap: $app-grid-indent, $align: top) {
@@ -562,12 +129,6 @@
   @content;
 }
 
-@mixin calc($property, $expression) {
-  #{$property}: -moz-calc(#{$expression});
-  #{$property}: -webkit-calc(#{$expression});
-  #{$property}: calc(#{$expression});
-}
-
-@function indexUp($i){
+@function indexUp($i) {
   @return ($i + 1);
 }

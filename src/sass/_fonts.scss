@@ -1,9 +1,32 @@
-$font: 'Name';
+$font: '';
 $types: ('Bold', 'Medium', 'Regular');
+$folder: '../fonts/';
+
+@mixin include_font($name,$path,$exts: eot) {
+    $src: null;
+    $extmods: (
+            eot: "?#iefix",
+            svg: "#" + str-replace($name, " ", "_")
+    );
+    $formats: (
+            eot: "embedded-opentype",
+            otf: "opentype",
+            ttf: "truetype"
+    );
+    @each $ext in $exts {
+        $extmod: if(map-has-key($extmods, $ext), $ext + map-get($extmods, $ext), $ext);
+        $format: if(map-has-key($formats, $ext), map-get($formats, $ext), $ext);
+        $src: append($src, url(quote($path + $name + "." + $extmod)) format(quote($format)), comma);
+    }
+    @font-face {
+        font-family: quote($name);
+        src: $src;
+    }
+}
 
 @each $type in $types {
   $fontName: '#{$font}-#{$type}';
-  @include include_font($fontName, '../fonts/#{$font}/', (woff2, woff, ttf, eot));
+  @include include_font($fontName, '#{$folder}#{$font}/', (woff2, woff, ttf, eot));
 
   $selector1: to-lower_case($fontName);
   $selector2: to-lower_case($type);
@@ -12,3 +35,4 @@ $types: ('Bold', 'Medium', 'Regular');
     font-family: $fontName;
   }
 }
+

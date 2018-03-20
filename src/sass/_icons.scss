@@ -30,8 +30,11 @@
     @if $filename == close {
     $char: "\E001";
 }
-    @if $filename == plus {
+    @if $filename == letter {
     $char: "\E002";
+}
+    @if $filename == plus {
+    $char: "\E003";
 }
 
 @return $char;
@@ -51,6 +54,9 @@
 
 .icon-close {
     @include icon(close);
+}
+.icon-letter {
+    @include icon(letter);
 }
 .icon-plus {
     @include icon(plus);
